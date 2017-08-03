@@ -195,6 +195,10 @@ def send_request(which, url, post_data=None):
 	full_url = "%s/%s" % (config.get(which, 'url'), url)
 	req = urllib.request.Request(full_url, post_data)
 	
+	token = config.get(which, 'token')
+	if token:
+		req.add_header("Authorization", b"token " + token.encode("utf-8"))
+	else:
 	username = config.get(which, 'username')
 	password = config.get(which, 'password')
 	req.add_header("Authorization", b"Basic " + base64.urlsafe_b64encode(username.encode("utf-8") + b":" + password.encode("utf-8")))
